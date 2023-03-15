@@ -1,0 +1,23 @@
+﻿<Window x:Class="Kalkulator.Calculator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kalkulator"
+        mc:Ignorable="d"
+        Title="Kalkulator" Height="450" Width="800">
+    <Grid>
+        <Label Content="Kalkulator prosty" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Width="202" FontFamily="Times New Roman" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Liczba 1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="122,94,0,0" FontFamily="Consolas" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" Width="84" Height="37" VerticalAlignment="Top"/>
+        <Label Content="Liczba 2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,145,303" VerticalAlignment="Bottom" Height="37" FontFamily="Consolas" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right" Width="86"/>
+        <TextBox x:Name="liczba_1" PreviewTextInput="onlyNumberAvailable" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="96,0,0,217" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="136" Height="53" FontSize="16" FontWeight="Bold" FontFamily="Consolas"/>
+        <TextBox x:Name="liczba_2" PreviewTextInput="onlyNumberAvailable" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="544,0,0,217" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="136" Height="53" FontFamily="Consolas" FontSize="16" FontWeight="Bold"/>
+        <Button Content="+" HorizontalAlignment="Left" Margin="252,224,0,0" VerticalAlignment="Top" Height="50" Width="50" Click="onAdd_Click"/>
+        <Button Content="/" HorizontalAlignment="Left" Margin="476,224,0,0" VerticalAlignment="Top" Height="50" Width="50" Click="onDivide_Click"/>
+        <Button Content="-" HorizontalAlignment="Left" Margin="329,224,0,0" VerticalAlignment="Top" Height="50" Width="50" Click="onSubstruct_Click"/>
+        <Button Content="*" HorizontalAlignment="Left" Margin="400,224,0,0" VerticalAlignment="Top" Height="50" Width="50" Click="onMultiple_Click"/>
+        <Label Content="Wynik" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top" FontFamily="Consolas" FontSize="16" FontWeight="Bold"/>
+        <TextBox x:Name="wynik" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,331,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" Height="50"/>
+
+    </Grid>
+</Window>
