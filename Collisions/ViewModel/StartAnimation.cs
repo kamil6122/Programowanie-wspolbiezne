@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Collisions.Prezentacja.ViewModel
+namespace ViewModel
 {
-    class StartAnimation : ICommand
+    public class StartAnimation : ICommand
     {
         CreateBalls createBalls;
-        UpdatePositions updatePositions;
 
         public StartAnimation(CreateBalls createBalls)
         {
             this.createBalls = createBalls;
-            updatePositions = new UpdatePositions();
         }
 
 
@@ -29,14 +27,13 @@ namespace Collisions.Prezentacja.ViewModel
 
         public void Execute(object? parameter)
         {
-            if (!updatePositions.IsUpdating())
+            if (!this.createBalls.IsUpdating())
             {
-                createBalls.generateBalls();    
-                updatePositions.startUpdating(createBalls.Balls, createBalls.Field);
+                this.createBalls.StartUpdating();
             }
             else
             {
-                updatePositions.stopUpdating();
+                this.createBalls.StopUpdating();
             }
         }
     }

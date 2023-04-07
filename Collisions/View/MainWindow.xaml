@@ -1,0 +1,58 @@
+﻿<Window x:Class="View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.DataContext>
+            <ViewModel:CreateBalls/>
+        </Grid.DataContext>
+        
+        
+        <ItemsControl ItemsSource="{Binding Balls}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                    <Canvas x:Name="canvas"
+                                Background="AliceBlue" 
+                                Margin="50,67,0,67" HorizontalAlignment="Left" Width="500" Height="300">
+                    </Canvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Ellipse Width="{Binding Radius}" Height="{Binding Radius}" Fill="Red"></Ellipse>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button x:Name="Start" Content="Start" 
+                Margin="606,313,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"
+                Height="35"  Width="140"
+                FontSize="18" FontFamily="Bahnschrift"
+                Command="{Binding startAnimation}"
+                />
+
+
+        <TextBox x:Name="numberOfBallsInput"
+                 HorizontalAlignment="Left" Margin="606,116,0,0" VerticalAlignment="Top" 
+                 TextWrapping="Wrap" 
+                 Text="{Binding Path=AmountOfBalls, Mode=TwoWay}"
+                 Width="140" Height="35" 
+                 FontSize="18" TextAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bahnschrift" />
+        <Label Content="Wprowadź ilość kul" 
+               HorizontalAlignment="Left" Margin="606,67,0,0" VerticalAlignment="Top"
+                FontSize="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Bahnschrift"
+                Width="140" Height="35" />
+
+    </Grid>
+</Window>
