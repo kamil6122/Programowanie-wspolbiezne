@@ -77,21 +77,25 @@ namespace Logika
 
             private void FieldCollision(Ball ball)
             {
-                if (ball.X <= 0)
+                if (ball.X - 2 <= 0)
                 {
-                    ball.setDirection(1, ball.YDirection);
+                    ball.setDirection(-ball.XDirection, ball.YDirection);
+                    ball.changePosition(ball.Radius, ball.Y);
                 }
                 if (ball.X >= this.dataApi.Field.Width - ball.Radius)
                 {
-                    ball.setDirection(-1, ball.YDirection);
+                    ball.setDirection(-ball.XDirection, ball.YDirection);
+                    ball.changePosition(this.dataApi.Field.Width - ball.Radius, ball.Y);
                 }
                 if (ball.Y <= 0)
                 {
-                    ball.setDirection(ball.XDirection, 1);
+                    ball.setDirection(ball.XDirection, -ball.YDirection);
+                    ball.changePosition(ball.X, ball.Radius);
                 }
-                if (ball.Y >= this.dataApi.Field.Height - ball.Radius)
+                if (ball.Y + ball.Radius >= this.dataApi.Field.Height)
                 {
-                    ball.setDirection(ball.XDirection, -1);
+                    ball.setDirection(ball.XDirection, -ball.YDirection);
+                    ball.changePosition(ball.X, this.dataApi.Field.Height - ball.Radius - 2);
                 }
             }
 
@@ -104,8 +108,6 @@ namespace Logika
 
                     if (Math.Pow(Math.Pow(ball.X - b.X, 2) + Math.Pow((ball.Y - b.Y), 2),0.5) < ball.Radius + b.Radius)
                     {
-                        int mass1 = 5;
-                        int mass2 = 5;
 
                         // ball 1 b 2
                         double dzielnik_1 = Math.Pow(Math.Pow((ball.X - b.X), 2) + Math.Pow((ball.Y - b.Y), 2),2);
@@ -115,19 +117,18 @@ namespace Logika
 
                         double ballXDir = ball.XDirection - przez_ile_1 * (ball.X - b.X);
                         double ballYDir = ball.YDirection - przez_ile_1 * (ball.Y - b.Y);
-                        double bXDir = ball.YDirection - przez_ile_1 * (ball.Y - b.Y);
-                        double bYDir = ball.YDirection - przez_ile_1 * (ball.Y - b.Y);
+                        double bXDir = b.XDirection - przez_ile_2 * (b.X - ball.X);
+                        double bYDir = b.YDirection - przez_ile_2 * (b.Y - ball.Y);
 
 
-                        ball.setDirection(ball.XDirection - przez_ile_1*(ball.X-b.X), ball.YDirection - przez_ile_1 * (ball.Y - b.Y));
-                        b.setDirection(b.XDirection - przez_ile_2*(b.X-ball.X), b.YDirection - przez_ile_2 * (b.Y - ball.Y));
-                        if (ball.XDirection > 1.5) ball.setDirection(3, ball.YDirection);
-                        if (ball.YDirection > 1.5) ball.setDirection(ball.XDirection, 3);
-                        if (b.XDirection > 1.5) b.setDirection(3, b.YDirection);
-                        if (b.YDirection > 1.5) b.setDirection(b.XDirection, 3);
+                        ball.setDirection( (ballXDir > 1.5) ? 1.5 : (ballXDir < -1.5) ? -1.5 : ballXDir
+                                            ,(ballYDir > 1.5) ? 1.5 : (ballYDir < -1.5) ? -1.5 : ballYDir);
 
-                        Debug.WriteLine(ball.XDirection);
-                        Debug.WriteLine(ball.YDirection);
+                        b.setDirection((bXDir > 1.5) ? 1.5 : (bXDir < -1.5) ? -1.5 : bXDir
+                                        ,(bYDir > 1.5) ? 1.5 : (bYDir < -1.5) ? -1.5 : bYDir);
+                        
+
+                        
                     }
                 }
             }
