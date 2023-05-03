@@ -47,10 +47,9 @@ namespace Dane
                     {
                         while (updating)
                         {
-                            lock (locked)
-                            {
+                            Task.Run(() => {
                                 ball.changePosition(ball.X + ball.XDirection, ball.Y + ball.YDirection);
-                            }
+                            });
                             Thread.Sleep(5);
                         }
                     });

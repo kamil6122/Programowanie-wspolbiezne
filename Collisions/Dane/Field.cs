@@ -18,7 +18,9 @@ namespace Dane
         {
             Width = width;
             Height = height;
-            GenerateBalls(amountOfBalls, 20);
+            Random rng = new Random();
+            int radius = rng.Next(15,25);
+            GenerateBalls(amountOfBalls, radius);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -55,16 +57,30 @@ namespace Dane
         {
             Random rng = new Random();
 
-            int x = rng.Next(25, (int)this.Width - 25);
-            int y = rng.Next(25, (int)this.Height - 25);
+            double x = rng.Next(25, (int)this.Width - 25);
+            double y = rng.Next(25, (int)this.Height - 25);
 
-            int xDir = rng.Next(-1, 2);
-            int yDir = rng.Next(-1, 2);
+            double xDir;
+            do
+            {
+                xDir = rng.NextDouble() * 0.99;
+            } while (xDir == 0);
+            xDir = (rng.Next(-1,1) < 0) ? xDir : -xDir;
 
-            Ball newBall = new Ball(20);
+            double yDir;
+            do
+            {
+                yDir = rng.NextDouble() * 0.99;
+            } while (yDir == 0);
+            yDir = (rng.Next(-1, 1) < 0) ? yDir : -yDir;
+
+            double mass = rng.Next(5, 30);
+
+            Ball newBall = new Ball(radius);
 
             newBall.changePosition(x, y);
             newBall.setDirection(xDir, yDir);
+            newBall.Mass = mass;
 
             return newBall;
         }

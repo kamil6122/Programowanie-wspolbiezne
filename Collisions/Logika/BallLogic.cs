@@ -33,7 +33,7 @@ namespace Logika
             }
         }
 
-        public int X
+        public double X
         {
             get { return ball.X; }
             set 
@@ -46,7 +46,7 @@ namespace Logika
             }
         }
 
-        public int Y
+        public double Y
         {
             get { return ball.Y; }
             set
@@ -59,7 +59,7 @@ namespace Logika
             }
         }
 
-        public int Radius
+        public double Radius
         {
             get { return ball.Radius; }
             set
@@ -68,6 +68,19 @@ namespace Logika
                 {
                     ball.Radius = value;
                     OnPropertyChanged(nameof(ball.Radius));
+                }
+            }
+        }
+
+        public double Mass
+        {
+            get { return ball.Mass; }
+            set
+            {
+                if (ball.Mass != value)
+                {
+                    ball.Mass = value;
+                    OnPropertyChanged(nameof(ball.Mass));
                 }
             }
         }

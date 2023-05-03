@@ -10,13 +10,14 @@ namespace Dane
 {
     public class Ball : INotifyPropertyChanged
     {
-        private int radius;
-        private int x;
-        private int y;
-        private int xDirection;
-        private int yDirection;
+        private double radius;
+        private double x;
+        private double y;
+        private double xDirection;
+        private double yDirection;
+        private double mass;
 
-        public Ball(int radius)
+        public Ball(double radius)
         {
             this.radius = radius;
         }
@@ -26,7 +27,7 @@ namespace Dane
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 
-        public int Radius 
+        public double Radius 
         { 
             get { return radius; } 
             set 
@@ -38,7 +39,7 @@ namespace Dane
                 }
             }
         }
-        public int X 
+        public double X 
         { 
             get { return x; } 
             set 
@@ -50,7 +51,7 @@ namespace Dane
                 }
             }
         }
-        public int Y 
+        public double Y 
         { 
             get { return y; }
             set
@@ -62,17 +63,29 @@ namespace Dane
                 }
             }
         }
-        public int XDirection { get { return xDirection; } }
-        public int YDirection { get { return yDirection; } }
+        public double Mass
+        {
+            get { return mass; }
+            set
+            {
+                if (mass != value)
+                {
+                    mass = value;
+                    OnPropertyChanged(nameof(Mass));
+                }
+            }
+        }
+        public double XDirection { get { return xDirection; } }
+        public double YDirection { get { return yDirection; } }
 
 
-        public void changePosition(int x, int y)
+        public void changePosition(double x, double y)
         {
             X = x;
             Y = y;
         }
 
-        public void setDirection(int x, int y)
+        public void setDirection(double x, double y)
         {
             this.xDirection = x;
             this.yDirection = y;

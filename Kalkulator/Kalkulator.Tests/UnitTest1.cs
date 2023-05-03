@@ -4,7 +4,7 @@ namespace Kalkulator.Tests
 {
 
     public class UnitTest1
-    {
+    {y
         [StaTheory]
         [InlineData(1, 1, 2)]
         [InlineData(270, 1, 271)]
