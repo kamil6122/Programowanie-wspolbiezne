@@ -19,7 +19,7 @@ namespace Dane
             Width = width;
             Height = height;
             Random rng = new Random();
-            int radius = rng.Next(15,25);
+            int radius = rng.Next(15,25);            
             GenerateBalls(amountOfBalls, radius);
         }
 
@@ -75,8 +75,8 @@ namespace Dane
             yDir = (rng.Next(-1, 1) < 0) ? yDir : -yDir;
 
             double mass = rng.Next(5, 30);
-
-            Ball newBall = new Ball(radius);
+            radius = Convert.ToInt32(Math.Ceiling(mass));
+            Ball newBall = new Ball(radius);            
 
             newBall.changePosition(x, y);
             newBall.setDirection(xDir, yDir);
