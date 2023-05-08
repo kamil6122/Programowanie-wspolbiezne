@@ -21,7 +21,6 @@ namespace Dane
         {
             private Field field;
             private bool updating;
-            private readonly object locked = new object();
 
             public bool Updating
             {
@@ -34,6 +33,7 @@ namespace Dane
                 get { return field; }
             }
 
+            
             public override void CreateField(int width, int height, int amountOfBalls)
             {
                 this.field = new Field(width, height, amountOfBalls);
@@ -50,6 +50,7 @@ namespace Dane
                             Task.Run(() => {
                                 ball.changePosition(ball.X + ball.XDirection, ball.Y + ball.YDirection);
                             });
+
                             Thread.Sleep(5);
                         }
                     });

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace Logika
         {
             private List<BallLogic> balls = new List<BallLogic>();
             private AbstractDataApi dataApi;
+            private readonly object locked = new object();
 
             public LogicApi(AbstractDataApi abstractDataApi = null) 
             {
@@ -77,27 +79,22 @@ namespace Logika
 
             private void FieldCollision(Ball ball)
             {
-                //ballCenterX = ball.X + ball.Radius / 2;
-                //ballCenterY = ball.Y + ball.Radius / 2;
+               
                 if (ball.X < 0)
                 {
                     ball.setDirection(Math.Abs(ball.XDirection), ball.YDirection);
-                    //ball.changePosition(ball.Radius, ball.Y);
                 }
                 if (ball.X > this.dataApi.Field.Width - ball.Radius)
                 {
                     ball.setDirection(-Math.Abs(ball.XDirection), ball.YDirection);
-                    //ball.changePosition(this.dataApi.Field.Width - ball.Radius, ball.Y);
                 }
                 if (ball.Y < 0)
                 {
                     ball.setDirection(ball.XDirection, Math.Abs(ball.YDirection));
-                    //ball.changePosition(ball.X, ball.Radius);
                 }
                 if (ball.Y + ball.Radius > this.dataApi.Field.Height)
                 {
                     ball.setDirection(ball.XDirection, -Math.Abs(ball.YDirection));
-                    //ball.changePosition(ball.X, this.dataApi.Field.Height - ball.Radius - 2);
                 }
             }
 
@@ -108,33 +105,27 @@ namespace Logika
                     if (b == ball)
                         continue;
 
-                    if (Math.Pow(Math.Pow(ball.X - b.X, 2) + Math.Pow((ball.Y - b.Y), 2),0.5) < ball.Radius + b.Radius)
+                    double ballCenterX = ball.X + ball.Radius / 2;
+                    double ballCenterY = ball.Y + ball.Radius / 2;
+                    double bCenterX = b.X + b.Radius / 2;
+                    double bCenterY = b.Y + b.Radius / 2;
+
+                    if (Math.Pow(Math.Pow(ballCenterX - bCenterX, 2) + Math.Pow((ballCenterY - bCenterY), 2),0.5) <= ((ball.Radius / 2) + (b.Radius / 2)))
                     {
 
-                        // ball 1 b 2
-                        double ballCenterX = ball.X + ball.Radius / 2;
-                        double ballCenterY = ball.Y + ball.Radius / 2;
-                        double bCenterX = b.X + b.Radius / 2;
-                        double bCenterY = b.Y + b.Radius / 2;
-                        double dzielnik_1 = Math.Pow(Math.Pow((ballCenterX - bCenterX), 2) + Math.Pow((ballCenterY - bCenterY), 2),2);
-                        double dzielnik_2 = Math.Pow(Math.Pow((bCenterX - ballCenterX), 2) + Math.Pow((bCenterY - ballCenterY), 2),2);
-                        double przez_ile_1 = 2 * b.Mass / (ball.Mass + b.Mass) * ((ball.XDirection - b.XDirection) * (ball.X - b.X) * (ball.YDirection - b.YDirection) * (ball.Y - b.Y)) / dzielnik_1;
-                        double przez_ile_2 = 2 * ball.Mass / (ball.Mass + b.Mass) * ((b.XDirection - ball.XDirection) * (b.X - ball.X) * (b.YDirection - ball.YDirection) * (b.Y - ball.Y)) / dzielnik_2;
+                        double v = ((b.XDirection * (b.Mass - ball.Mass) + (2 * ball.Mass * ball.XDirection)) / (b.Mass + ball.Mass));
+                        double ballXDir = ((ball.XDirection * (ball.Mass - b.Mass) + (2 * b.Mass * b.XDirection)) / (b.Mass + ball.Mass));
+                        double bXDir = v;
 
-                        double ballXDir = ball.XDirection - przez_ile_1 * (ballCenterX - bCenterX);
-                        double ballYDir = ball.YDirection - przez_ile_1 * (ballCenterY - bCenterY);
-                        double bXDir = b.XDirection - przez_ile_2 * (bCenterX - ballCenterX);
-                        double bYDir = b.YDirection - przez_ile_2 * (bCenterY - ballCenterY);
-
-
-                        ball.setDirection( (ballXDir > 1.5) ? 1.5 : (ballXDir < -1.5) ? -1.5 : ballXDir
-                                            ,(ballYDir > 1.5) ? 1.5 : (ballYDir < -1.5) ? -1.5 : ballYDir);
-
-                        b.setDirection((bXDir > 1.5) ? 1.5 : (bXDir < -1.5) ? -1.5 : bXDir
-                                        ,(bYDir > 1.5) ? 1.5 : (bYDir < -1.5) ? -1.5 : bYDir);
-                        
+                        v = ((b.YDirection * (b.Mass - ball.Mass) + (2 * ball.Mass * ball.YDirection)) / (b.Mass + ball.Mass));
+                        double ballYDir = ((ball.YDirection * (ball.Mass - b.Mass) + (2 * b.Mass * b.YDirection)) / (b.Mass + ball.Mass));
+                        double bYDir = v;
 
                         
+                        ball.setDirection(ballXDir, ballYDir);
+                        b.setDirection(bXDir, bYDir);
+                        
+
                     }
                 }
             }

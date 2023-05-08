@@ -75,7 +75,6 @@ namespace Dane
             yDir = (rng.Next(-1, 1) < 0) ? yDir : -yDir;
 
             double mass = rng.Next(5, 30);
-            radius = Convert.ToInt32(Math.Ceiling(mass));
             Ball newBall = new Ball(radius);            
 
             newBall.changePosition(x, y);
