@@ -121,11 +121,12 @@ namespace Logika
                         double ballYDir = ((ball.YDirection * (ball.Mass - b.Mass) + (2 * b.Mass * b.YDirection)) / (b.Mass + ball.Mass));
                         double bYDir = v;
 
-                        
+                        b.changePosition(b.X + bXDir, b.Y + bYDir);
+                        ball.changePosition(ball.X + ballXDir, ball.Y + ballYDir);
+
                         ball.setDirection(ballXDir, ballYDir);
                         b.setDirection(bXDir, bYDir);
                         
-
                     }
                 }
             }
