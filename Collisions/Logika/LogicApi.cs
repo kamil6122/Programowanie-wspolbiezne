@@ -77,6 +77,13 @@ namespace Logika
                 }
             }
 
+            public double distance(Ball ball1, Ball ball2)
+            {
+                double x = Math.Pow(ball1.X - ball2.X, 2);
+                double y = Math.Pow(ball1.Y - ball2.Y, 2);
+                return Math.Pow(x + y, 0.5);
+            }
+
             private void FieldCollision(Ball ball)
             {
                
@@ -100,6 +107,7 @@ namespace Logika
 
             private void BallCollision(Ball ball)
             {
+
                 foreach(Ball b in dataApi.GetBalls())
                 {
                     if (b == ball)
@@ -110,23 +118,32 @@ namespace Logika
                     double bCenterX = b.X + b.Radius / 2;
                     double bCenterY = b.Y + b.Radius / 2;
 
-                    if (Math.Pow(Math.Pow(ballCenterX - bCenterX, 2) + Math.Pow((ballCenterY - bCenterY), 2),0.5) <= ((ball.Radius / 2) + (b.Radius / 2)))
-                    {
+                    double bXDir = b.XDirection;
+                    double bYDir = b.YDirection;
+                    double ballXDir = ball.XDirection;
+                    double ballYDir = ball.YDirection;
 
+                    //bool collided = false;
+
+                    if (Math.Pow(Math.Pow((ballCenterX + ball.XDirection) - (bCenterX + b.XDirection), 2) + Math.Pow(((ballCenterY + ball.YDirection) - (bCenterY + b.YDirection)), 2),0.5) < ((ball.Radius / 2) + (b.Radius / 2)))
+                    {
+                        ballCenterX = ball.X + ball.Radius / 2;
+                        ballCenterY = ball.Y + ball.Radius / 2;
+                        bCenterX = b.X + b.Radius / 2;
+                        bCenterY = b.Y + b.Radius / 2;
                         double v = ((b.XDirection * (b.Mass - ball.Mass) + (2 * ball.Mass * ball.XDirection)) / (b.Mass + ball.Mass));
-                        double ballXDir = ((ball.XDirection * (ball.Mass - b.Mass) + (2 * b.Mass * b.XDirection)) / (b.Mass + ball.Mass));
-                        double bXDir = v;
+                        ballXDir = ((ball.XDirection * (ball.Mass - b.Mass) + (2 * b.Mass * b.XDirection)) / (b.Mass + ball.Mass));
+                        bXDir = v;
 
                         v = ((b.YDirection * (b.Mass - ball.Mass) + (2 * ball.Mass * ball.YDirection)) / (b.Mass + ball.Mass));
-                        double ballYDir = ((ball.YDirection * (ball.Mass - b.Mass) + (2 * b.Mass * b.YDirection)) / (b.Mass + ball.Mass));
-                        double bYDir = v;
-
-                        b.changePosition(b.X + bXDir, b.Y + bYDir);
-                        ball.changePosition(ball.X + ballXDir, ball.Y + ballYDir);
-
-                        ball.setDirection(ballXDir, ballYDir);
-                        b.setDirection(bXDir, bYDir);
+                        ballYDir = ((ball.YDirection * (ball.Mass - b.Mass) + (2 * b.Mass * b.YDirection)) / (b.Mass + ball.Mass));
+                        bYDir = v;
                         
+                        b.setDirection(bXDir, bYDir);
+                        ball.setDirection(ballXDir, ballYDir);
+                        
+                        //b.changePosition(b.X + bXDir, b.Y + bYDir) ;
+                        //ball.changePosition(ball.X + ballXDir, ball.Y + ballYDir);                                                                       
                     }
                 }
             }
