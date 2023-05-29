@@ -120,7 +120,6 @@ namespace Logika
 
                     
 
-                    //bool collided = false;
 
                     if (Math.Pow(Math.Pow((ballCenterX + ball.XDirection) - (bCenterX + b.XDirection), 2) + Math.Pow(((ballCenterY + ball.YDirection) - (bCenterY + b.YDirection)), 2),0.5) < ((ball.Radius / 2) + (b.Radius / 2)))
                     {
@@ -137,10 +136,7 @@ namespace Logika
                             b.setDirection(bXDir, bYDir);
                             ball.setDirection(ballXDir, ballYDir);
                         }
-                        
-                        
-                        //b.changePosition(b.X + bXDir, b.Y + bYDir) ;
-                        //ball.changePosition(ball.X + ballXDir, ball.Y + ballYDir);                                                                       
+                                                                     
                     }
                 }
             }

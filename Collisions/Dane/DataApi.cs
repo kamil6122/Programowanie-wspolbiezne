@@ -21,6 +21,7 @@ namespace Dane
         {
             private Field field;
             private bool updating;
+            private Logger logger;
 
             public bool Updating
             {
@@ -39,6 +40,7 @@ namespace Dane
                 this.field = new Field(width, height, amountOfBalls);
                 this.Updating = true;
                 List<Ball> balls = GetBalls();
+                logger = new Logger(balls);
 
                 foreach (Ball ball in balls)
                 {
@@ -61,6 +63,7 @@ namespace Dane
             public override void StopUpdating() 
             {
                 this.Updating = false;
+                this.logger.stop();
             }
 
             public override bool IsUpdating()
